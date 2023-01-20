@@ -23,6 +23,7 @@ Mysql
 * [MongoD Community](https://www.mongodb.com/try/download/community) - Banco de dados primario utilizado para extração. 
 * [Python](https://www.python.org/) - Linguagem utilizada para realizar o ETL.
 * [MySQL](https://www.mysql.com/downloads/) - Banco de dados escolhido para ser inserido o resultado.
+* [Jupyter Notebook](https://jupyter.org/) - IDE utilizada para o desenvolvimento.
 * [Pymongo](https://pymongo.readthedocs.io/en/stable/) - Biblioteca utilizada para realizar a conexão entre Python e Mongodb
 * [locale](https://docs.python.org/pt-br/3.8/library/locale.html) - Biblioteca utilizada tratar a origem dos dados no formato desejado.
 * [mysql.connector](https://dev.mysql.com/doc/connector-python/en/) - Biblioteca utilizada para realizar a conexão entre Python e Mysql
