@@ -37,7 +37,6 @@ na base primaria seja transmitido ao mysql assim objetendo os dados em tempo rea
 
 ## ✒️ Autores
 
-Mencione todos aqueles que ajudaram a levantar o projeto desde o seu início
 
 * **Analista de Dados** - *Trabalho Inicial* - [desenvolvedor](https://github.com/luiz-rafael)
 
