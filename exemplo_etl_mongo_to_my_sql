@@ -1,0 +1,56 @@
+from pymongo import MongoClient
+from utilidades.database_classes import SSHMySQL
+from datetime import datetime
+import pymysql
+from utilidades.database_classes import MongoDB
+import time
+
+start_time = time.time()    
+
+# Conexão com o MongoDB
+mongo = MongoDB(collection_name='my_collection', db_name='my_database')
+data = mongo.find_data()
+
+# Transformação dos dados
+transformed_data = []
+for item in data:
+    _id = str(item.get('_id'))
+    cliente_id = str(item.get('cliente_id'))
+    user_id = str(item.get('user_id'))
+    unique_key = item.get('unique_key') if item.get('unique_key') is not None else contractor_name
+    customer_id = str(item.get('customer_id'))
+    salesman_id = str(item.get('salesman_id'))
+    operational_id = str(item.get('operational_id'))
+    origin = item.get('origin')
+    origin_id = str(item.get('origin_id'))
+    contractor_name = item.get('contractor_name')
+    type = str(item.get('type'))
+    status = item.get('status')
+    active = item.get('active')
+    has_legacy_id = item.get('has_legacy_id')
+    legacy_id = item.get('legacy_id')
+    createdAt = item.get('createdAt')
+    updatedAt = item.get('updatedAt')
+    transformed_data.append((_id,cliente_id,user_id,unique_key,customer_id,salesman_id,operational_id,origin,origin_id,contractor_name,type,status,active,createdAt,updatedAt))
+
+# Conexão com o MySQL
+mysqlCon = SSHMySQL(hostname='my-server.com', username='my-username', password='my-password',
+                    remote_bind_address=('127.0.0.1', 3306), local_bind_address=('localhost', 3306))
+mysqlCon.start_ssh_tunnel()
+conn = mysqlCon.open_connection_mysql(database='my_database', user='my_user', password='my_password')
+
+try:
+    cursor = conn.cursor()
+    query = "INSERT INTO my_table(os_id,cliente_id,user_id,unique_key,customer_id,salesman_id,operational_id,origin,origin_id,contractor_name,type,status,active,createdAt,updatedAt) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+    cursor.executemany(query, transformed_data)
+    conn.commit()
+except Exception as e:
+    print('Erro:', e)
+finally:
+    mysqlCon.close_connection_mysql()
+    mysqlCon.stop_ssh_tunnel()
+    
+end_time = time.time()
+
+total_time = end_time - start_time
+print('Tempo total de processamento:', total_time, 'segundos')
